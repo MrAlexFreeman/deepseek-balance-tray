@@ -86,23 +86,16 @@ windhawk-cli mod install --file .\deepseek-balance-tray.wh.cpp
 * The old Windows 10 taskbar on Windows 11 via ExplorerPatcher is not supported.
 * Windhawk 1.4+ (uses `Wh_FindFirstSymbol` for internal symbols).
 
-## Building and testing
+## Building
 
-The source compiles with Windhawk's own toolchain (clang 20, MSVC headers).
-To run the local logic tests (JSON/XML parsing, amount formatting, the
-`Get*FormatEx` buffer contract, ruble conversion):
+The mod is a single self-contained `.wh.cpp` file. Windhawk compiles it locally
+with its own clang toolchain and MSVC headers:
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\tests\run-tests.ps1
-```
+1. Windhawk → **Create new mod** → paste the source → **Compile**.
+2. Or `windhawk-cli mod compile deepseek-balance-tray` for an installed copy.
 
-Requirements: Visual Studio Build Tools (MSVC + Windows SDK) and clang-cl.
-Live checks:
-
-```powershell
-.\build\parser_test.exe --rates          # fetch CBR rates
-.\build\parser_test.exe --env            # query the API with DEEPSEEK_API_KEY
-```
+No additional libraries are required; `@compilerOptions -lwinhttp` links the
+WinHTTP import library.
 
 ## License
 

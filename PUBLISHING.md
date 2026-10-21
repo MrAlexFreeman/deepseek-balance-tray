@@ -18,20 +18,16 @@ repository below), e.g. `https://github.com/octocat/deepseek-balance-tray`.
 Also check `@author` — it currently says `DS Balance`; put your name or nick if
 you prefer.
 
-## 2. Create your GitHub repository
+## 2. Push the repository to GitHub
+
+The local git repository is already initialized with one commit. Create an empty
+repository named `deepseek-balance-tray` on GitHub, then:
 
 ```powershell
 cd dist
-git init
-git add .
-git commit -m "DeepSeek Balance in Taskbar 1.0.0"
-git branch -M main
 git remote add origin https://github.com/OWNER/deepseek-balance-tray.git
 git push -u origin main
 ```
-
-(If git asks for an identity first:
-`git config user.name "Your Name"` and `git config user.email "you@example.com"`.)
 
 After the push, the `@github` link in the source is valid and the README
 screenshots render on GitHub.
