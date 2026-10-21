@@ -47,7 +47,7 @@ windhawk-cli mod install --file .\deepseek-balance-tray.wh.cpp
 | --- | --- | --- |
 | `apiKey` | empty | DeepSeek API key. If empty, the `DEEPSEEK_API_KEY` environment variable is used. |
 | `refreshInterval` | `5` | How often to poll the API, in minutes (1…1440). |
-| `formatPrefix` | `$` | Text before the amount in native mode (`$`, `¥`, `CNY `). |
+| `formatPrefix` | empty | Text before the amount in native mode. Empty means the currency symbol (`¥` for CNY, `$` for USD). |
 | `currency` | `auto` | Which `balance_infos` entry to show: `auto`, `CNY` or `USD`. |
 | `clockLine` | `date` | Append to the bottom (date) or top (time) clock line. |
 | `displayCurrency` | `native` | `native` — CNY/USD as returned by the API; `RUB` — convert at the CBR rate. |
@@ -75,16 +75,22 @@ windhawk-cli mod install --file .\deepseek-balance-tray.wh.cpp
 * The API key is stored in Windhawk's mod settings in plain text (Windhawk has
   no secret setting type). It is sent only to `api.deepseek.com` and is never
   written to the log.
+* In a regular (non-portable) Windhawk installation the mod settings are
+  machine-wide, so every Windows account on the PC shares the same key.
 * The only other network endpoint is `www.cbr.ru` (Bank of Russia) in `RUB`
   mode. No telemetry, no analytics, no third-party services.
 
 ## Compatibility
 
-* Windows 10 (stock taskbar) and Windows 11 (XAML taskbar).
+* Windows 10 (stock taskbar) and Windows 11 (XAML taskbar), x86-64 only: the
+  internal clock symbols and calling conventions used here are 64-bit.
 * Requires symbols (PDB) for `explorer.exe` / `SystemTray.dll`; Windhawk
   downloads them automatically on first start.
 * The old Windows 10 taskbar on Windows 11 via ExplorerPatcher is not supported.
-* Windhawk 1.4+ (uses `Wh_FindFirstSymbol` for internal symbols).
+* Windhawk 1.4+.
+* Do not enable it together with **Taskbar Clock Customization**: both hook the
+  same clock formatting functions, and that mod replaces the line text, so only
+  one of them can win.
 
 ## Building
 
