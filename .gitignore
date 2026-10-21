@@ -1,0 +1,9 @@
+# Build artifacts
+build/
+*.obj
+*.exe
+*.pdb
+*.ilk
+
+# Local test output
+tests/build/
