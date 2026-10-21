@@ -9,10 +9,10 @@ because they need your GitHub account.
 `deepseek-balance-tray.wh.cpp` has a placeholder repository URL:
 
 ```
-// @github          https://github.com/OWNER/deepseek-balance-tray
+// @github          https://github.com/MrAlexFreeman/deepseek-balance-tray
 ```
 
-Replace `OWNER` with your GitHub username (the same name you will use for the
+Replace `MrAlexFreeman` with your GitHub username (the same name you will use for the
 repository below), e.g. `https://github.com/octocat/deepseek-balance-tray`.
 
 Also check `@author` — it currently says `DS Balance`; put your name or nick if
@@ -25,7 +25,7 @@ repository named `deepseek-balance-tray` on GitHub, then:
 
 ```powershell
 cd dist
-git remote add origin https://github.com/OWNER/deepseek-balance-tray.git
+git remote add origin https://github.com/MrAlexFreeman/deepseek-balance-tray.git
 git push -u origin main
 ```
 
@@ -60,7 +60,7 @@ failed check:
 ```markdown
 Adds a mod that shows the current DeepSeek API balance in the taskbar clock.
 
-![screenshot](https://raw.githubusercontent.com/OWNER/deepseek-balance-tray/main/screenshots/clock.png)
+![screenshot](https://raw.githubusercontent.com/MrAlexFreeman/deepseek-balance-tray/main/screenshots/clock.png)
 
 * Hooks `GetTimeFormatEx` / `GetDateFormatEx` from `kernelbase.dll` and only
   decorates calls made while the taskbar clock is refreshing (Windows 10:
@@ -76,12 +76,12 @@ Adds a mod that shows the current DeepSeek API balance in the taskbar clock.
 * The API key is stored in the mod settings in plain text (Windhawk has no
   secret setting type); it is only sent to `api.deepseek.com` and never logged.
 
-Source repository: https://github.com/OWNER/deepseek-balance-tray
+Source repository: https://github.com/MrAlexFreeman/deepseek-balance-tray
 
 Tested on Windows 11 build 28000 with Windhawk 2.0-alpha.1.
 ```
 
-Replace `OWNER` in the raw screenshot URL as well.
+Replace `MrAlexFreeman` in the raw screenshot URL as well.
 
 ## 5. After the merge
 

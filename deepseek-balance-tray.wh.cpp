@@ -3,8 +3,8 @@
 // @name            DeepSeek Balance in Taskbar
 // @description     Shows the current DeepSeek API account balance next to the taskbar clock
 // @version         1.0.0
-// @author          DS Balance
-// @github          https://github.com/OWNER/deepseek-balance-tray
+// @author          MrAlexFreeman
+// @github          https://github.com/MrAlexFreeman/deepseek-balance-tray
 // @license         MIT
 // @include         explorer.exe
 // @compilerOptions -lwinhttp
