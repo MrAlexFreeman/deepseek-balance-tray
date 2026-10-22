@@ -10,10 +10,9 @@ balance right in the Windows taskbar clock.
 ## Features
 
 * Balance is appended to the taskbar clock: `22.10.2026 | ≈1 058 ₽`.
-* Native currency (`CNY`/`USD`) or Russian rubles at the official Bank of
-  Russia rate.
-* Configurable refresh interval, currency, currency prefix and which clock line
-  to use.
+* Balance in Chinese yuan (`¥`), Russian rubles (`₽`) or US dollars (`$`),
+  converted with the official Bank of Russia rates.
+* Configurable refresh interval, display currency and which clock line to use.
 * Networking uses the built-in WinHTTP stack; JSON and XML are parsed by hand,
   no libcurl/OpenSSL/JSON libraries.
 * All network work happens on a background thread with Win32 timeouts, so
@@ -47,10 +46,8 @@ windhawk-cli mod install --file .\deepseek-balance-tray.wh.cpp
 | --- | --- | --- |
 | `apiKey` | empty | DeepSeek API key. If empty, the `DEEPSEEK_API_KEY` environment variable is used. |
 | `refreshInterval` | `5` | How often to poll the API, in minutes (1…1440). |
-| `formatPrefix` | empty | Text before the amount in native mode. Empty means the currency symbol (`¥` for CNY, `$` for USD). |
-| `currency` | `auto` | Which `balance_infos` entry to show: `auto`, `CNY` or `USD`. |
 | `clockLine` | `date` | Append to the bottom (date) or top (time) clock line. |
-| `displayCurrency` | `native` | `native` — CNY/USD as returned by the API; `RUB` — convert at the CBR rate. |
+| `displayCurrency` | `CNY` | Currency to show: `CNY`, `RUB` or `USD`. Converted with the CBR rates. |
 
 ## How it works
 
@@ -64,11 +61,11 @@ windhawk-cli mod install --file .\deepseek-balance-tray.wh.cpp
   properties and other Explorer UI stay untouched.
 * A background `std::thread` polls
   `https://api.deepseek.com/user/balance` over WinHTTP and updates the suffix.
-* In `RUB` mode it additionally downloads
-  `https://www.cbr.ru/scripts/XML_daily.asp` (windows-1251, `Value / Nominal`),
-  caches the rates for 6 hours and converts the balance.
-* On network errors the last known value is kept; on a missing rate the native
-  currency is shown instead of an empty line.
+* To show the balance in a currency other than the API one (`CNY`/`USD`), the
+  mod downloads `https://www.cbr.ru/scripts/XML_daily.asp` (windows-1251,
+  `Value / Nominal`), caches the rates for 6 hours and converts the amount.
+* On network errors the last known value is kept; if a rate is missing, the
+  balance is shown in its original currency instead of an empty line.
 
 ## Privacy
 
@@ -77,8 +74,9 @@ windhawk-cli mod install --file .\deepseek-balance-tray.wh.cpp
   written to the log.
 * In a regular (non-portable) Windhawk installation the mod settings are
   machine-wide, so every Windows account on the PC shares the same key.
-* The only other network endpoint is `www.cbr.ru` (Bank of Russia) in `RUB`
-  mode. No telemetry, no analytics, no third-party services.
+* The only other network endpoint is `www.cbr.ru` (Bank of Russia), used only
+  when the selected display currency differs from the API currency. No
+  telemetry, no analytics, no third-party services.
 
 ## Compatibility
 
@@ -100,8 +98,8 @@ with its own clang toolchain and MSVC headers:
 1. Windhawk → **Create new mod** → paste the source → **Compile**.
 2. Or `windhawk-cli mod compile deepseek-balance-tray` for an installed copy.
 
-No additional libraries are required; `@compilerOptions -lwinhttp` links the
-WinHTTP import library.
+No additional libraries are required; `@compilerOptions -lwinhttp -lversion`
+links the WinHTTP and version import libraries.
 
 ## License
 
