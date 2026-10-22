@@ -10,8 +10,9 @@ balance right in the Windows taskbar clock.
 ## Features
 
 * Balance is appended to the taskbar clock: `22.10.2026 | ≈1 058 ₽`.
-* Balance in Chinese yuan (`¥`), Russian rubles (`₽`) or US dollars (`$`),
-  converted with the official Bank of Russia rates.
+* Balance in its original currency (`native`), or converted to Chinese yuan
+  (`¥`), Russian rubles (`₽`) or US dollars (`$`) with the official Bank of
+  Russia rates. Conversion is opt-in: with `native` no extra request is made.
 * Configurable refresh interval, display currency and which clock line to use.
 * Networking uses the built-in WinHTTP stack; JSON and XML are parsed by hand,
   no libcurl/OpenSSL/JSON libraries.
@@ -47,7 +48,7 @@ windhawk-cli mod install --file .\deepseek-balance-tray.wh.cpp
 | `apiKey` | empty | DeepSeek API key. If empty, the `DEEPSEEK_API_KEY` environment variable is used. |
 | `refreshInterval` | `5` | How often to poll the API, in minutes (1…1440). |
 | `clockLine` | `date` | Append to the bottom (date) or top (time) clock line. |
-| `displayCurrency` | `CNY` | Currency to show: `CNY`, `RUB` or `USD`. Converted with the CBR rates. |
+| `displayCurrency` | `native` | `native` keeps the API currency and makes no extra request; `CNY`, `RUB` and `USD` convert with the CBR rates. |
 
 ## How it works
 
@@ -61,9 +62,11 @@ windhawk-cli mod install --file .\deepseek-balance-tray.wh.cpp
   properties and other Explorer UI stay untouched.
 * A background `std::thread` polls
   `https://api.deepseek.com/user/balance` over WinHTTP and updates the suffix.
-* To show the balance in a currency other than the API one (`CNY`/`USD`), the
-  mod downloads `https://www.cbr.ru/scripts/XML_daily.asp` (windows-1251,
-  `Value / Nominal`), caches the rates for 6 hours and converts the amount.
+* To show the balance in a currency other than the API one, the mod downloads
+  `https://www.cbr.ru/scripts/XML_daily.asp` (windows-1251, `Value / Nominal`),
+  caches the rates for 6 hours and converts the amount. This happens only when
+  `displayCurrency` is set to `CNY`, `RUB` or `USD` and differs from the
+  currency returned by the API; the default `native` makes no such request.
 * On network errors the last known value is kept; if a rate is missing, the
   balance is shown in its original currency instead of an empty line.
 
